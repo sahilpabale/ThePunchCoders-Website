@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ post.post_title }} | ThePunchCoders
+{% endblock title %}
+
+{% block body %}
+{% load humanize %}
+{% load extras %}
+<div class="container my-3">
+    <div class="blog-post">
+            <h2 class="blog-post-title">{{ post.post_title }}</h2>
+            <small class="blog-post-meta text-muted normal">Article by <a href="/about">{{post.post_author}}</a> &bull; {{ post.post_pub_date|date:'M jS, Y' }}</small>
+            <div class="blog-post-body my-3">
+                <p class="normal">
+                    {{ post.post_desc }}
+                </p>
+            </div>
+            <hr>
+    </div>
+        <h4>{{comments.count}} Comments</h4>
+        <div class="my-2">
+        {% if user.is_anonymous %}
+            <div>
+            <p class="normal">Please <a href="/account/signin">sign in</a> to post a comment</p>
+            </div>
+        </div>
+        {% else %}
+        <small class="normal">Post your comment here.</small>
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong></strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        {% endfor %}
+        <div class="container">
+
+                <form action="/blog/c" method="post">
+                <div class="row">
+                {% comment %} <div class="col-md-1">
+                    <img src="https://cdn1.iconfinder.com/data/icons/common-version-3-0/1024/user-512.png" style="width:35px;" class=""/>
+                </div> {% endcomment %}
+                {% csrf_token %}
+                    <div class="col-lg-12  col-md-12 col-sm-12">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Comment here" name="comment" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <input type="hidden" name="post_id" value="{{post.post_id}}">
+                            <input type="hidden" name="parent_id" value="">
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" type="submit" id="button-addon2">Comment</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+                
+        </div>
+        {% endif %}
+        {% for comment in comments %}
+        <div class="row my-3">
+            <div class="col-md-12">
+                <img src="https://img.icons8.com/material-sharp/24/000000/user.png"/>
+                <b>{{comment.user.username}}</b> <span class="badge badge-pill badge-dark">{{comment.timestamp|naturaltime}}</span>  
+                <div class="ml-4 mt-1">
+                    {{comment.comment_desc}}
+                    <p>
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#reply{{comment.comment_id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Reply
+                    </button>
+                    {% else %}
+                    <button class="btn btn-dark btn-sm btn-disabled" data-toggle="collapse" data-target="#reply{{comment.comment_id}}" role="button" aria-expanded="false" aria-controls="collapseExample" disabled>
+                    Login to Reply
+                    </button>
+                    {% endif %}
+                    </p>
+                    <div class="collapse" id="reply{{comment.comment_id}}">
+                    <div>
+                        <form action="/blog/c" method="post">
+                        <div class="row">
+                        {% comment %} <div class="col-md-1">
+                            <img src="https://cdn1.iconfinder.com/data/icons/common-version-3-0/1024/user-512.png" style="width:35px;" class=""/>
+                        </div> {% endcomment %}
+                        {% csrf_token %}
+                            <div class="col-lg-12  col-md-12 col-sm-12">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Reply here" name="comment" aria-label="User's Reply" aria-describedby="button-addon2">
+                                    <input type="hidden" name="post_id" value="{{post.post_id}}">
+                                    <input type="hidden" name="parent_id" value="{{comment.comment_id}}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-dark" type="submit" id="button-addon2">Post a reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    
+                </div>
+                </div>
+                    <div class="replies">
+                        {% for reply in replyDict|get_val:comment.comment_id %}
+                            <div class="row my-3 ml-4">
+                                <div class="col-md-12">
+                                    <img src="https://img.icons8.com/material-sharp/24/000000/user.png"/>
+                                    <b>{{reply.user.username}}</b> <span class="badge badge-pill badge-danger">{{reply.timestamp|naturaltime}}</span>
+                                </div>
+                                <div class="col-md-12 ml-4 mt-1">
+                                    {{reply.comment_desc}}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

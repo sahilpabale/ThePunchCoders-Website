@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | ThePunchCoders{% endblock title %}
+
+{% block homeAct %} active{% endblock homeAct %}
+
+{% block css %}
+<style>
+.widgets {
+    display: flex;
+    justify-content: space-around;
+}
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container my-3">
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  <strong></strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+<div class="jumbotron">
+  <h1 class="display-5">Welcome to ThePunchCoders!</h1>
+  <p class="lead">ThePunchCoders is a channel where you will find some awesome coding tutorials.</p>
+  <hr class="my-4">
+  <p class="normal">At ThePunchCoders, we make videos on Programming languages, Computer Science concepts, and some useful Tips & Tricks of Coding which will make you a better Programmer.</p>
+  <div class="d-flex justify-content-around">
+  <a class="btn btn-dark btn-md" href="https://bit.ly/ThePunchCoders-YT" target="_blank" role="button">Visit our Channel</a>
+  <a class="btn btn-dark btn-md" href="/blog" target="_blank" role="button">Visit our Blog</a>
+  </div>
+</div>
+</div>
+<div class="container">
+  <div class="text-center">
+    <p class="lead"><b>Checkout our Recent Posts</b></p>
+  </div>
+    <div class="row " style="margin-right: 0px; margin-left: 0px;">
+    {% for post in posts %}
+      <div class="card mb-3 col-lg-6 col-md-6 col-sm-6">
+        <img src="https://twilio-cms-prod.s3.amazonaws.com/images/django-dark.width-808.png" class="card-img-top my-3" alt="...">
+        <div class="card-body">
+          <small class="text-muted normal">Article by <a href="/about">{{post.post_author}}</a> &bull; {{post.post_pub_date|date:'M jS, Y'}}</small>
+          <h3 class="card-title my-1">{{post.post_title}}</h3>
+          <p class="card-text normal">{{ post.post_desc | truncatechars:100 }}</p>
+          <div class="d-flex justify-content-between normal">
+            <p class="card-text"><i class="fas fa-eye"></i> 12 &bull; <i class="fas fa-comment-alt"></i> 10</p>
+            <a href="blog/{{post.post_slug}}" role="button">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    
+</div>
+{% endblock body %}

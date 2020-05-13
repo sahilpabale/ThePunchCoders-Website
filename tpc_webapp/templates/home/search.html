@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+You searched for '{{query}}'
+{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    {% if posts|length < 1 %}
+                <h2>No results found!</h2>
+                <hr>
+                <p class="normal">
+                Your search - <b>{{query|truncatechars:50}}</b> - did not match any documents.
+                <br>
+                <small>Suggestions:<ul class="normal">
+                <li>Make sure that all words are spelled correctly.</li>
+                <li>Try different keywords.</li>
+                <li>Try more general keywords.</li>
+                </small>
+                </p>
+    {% else %}
+    <h2>Search results for '{{query}}'</h2>
+    <hr>
+    <div class="row" style="margin-right: 0px; margin-left: 0px;">
+            {% for post in posts %}
+            <div class="card mb-4 my-4">
+                <div class="row no-gutters">
+                    <div class="col-md-4" style="border: none;">
+                    <img src="https://twilio-cms-prod.s3.amazonaws.com/images/django-dark.width-808.png" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                    <div class="card-body">
+                        <small class="text-muted normal">Article by <a href="/about">{{ post.post_author }}</a> &bull; {{post.post_pub_date|date:'M jS, Y'}}</small>
+                        <h3 class="card-title">{{ post.post_title }}</h3>
+                        <p class="normal">{{ post.post_desc | truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between normal">
+                            <p><i class="fas fa-eye"></i> 0  &bull;  <i class="fas fa-comment-alt"></i> 0</p>
+                            <a href="/blog/{{post.post_slug}}">Read More</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}

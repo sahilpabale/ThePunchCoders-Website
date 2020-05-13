@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign in - ThePunchCoders Accounts
+{% endblock title %}
+
+{% block body %}
+<div class="container my-3">
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong></strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    {% endfor %}
+    <section class="container-fluid">
+        <h2 class="text-center mt-4">Sign in</h2>
+        <p class="normal text-center">Use your TPC Account</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-3 col-sm-6 normal">
+                <form method="post" action="/account/signin">
+                {% csrf_token %}
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="my_username" name="log_username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="log_pass" required>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer justify-content-around">
+                    <button type="submit" class="btn btn-dark">Login</button>
+                </div>
+                <div class="text-center">
+                    <small>Don't have an account. <a href="/account/signup">Create a new account</a></small><br>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock body %}

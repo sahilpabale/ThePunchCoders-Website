@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block blogAct %} active{% endblock blogAct %}
+
+{% block title %}
+Blog | ThePunchCoders
+{% endblock title %}
+
+{% block body %}
+{% load static %}
+<div class="container my-2">
+    <div class="jumbotron">
+        <h1 class="display-5">Welcome to our Blog!</h1>
+        <hr>
+        <p class="normal">ThePunchCoders Blog consists of some awesome articles which will seem very helpful to all Programmers and Web Developers.</p>
+    </div>
+    <main>
+        <h3>Featured posts:</h3>
+        <div class="row" style="margin-right: 0px; margin-left: 0px;">
+            {% for post in allPosts %}
+            <div class="card mb-4 my-4">
+                <div class="row no-gutters">
+                    <div class="col-lg-5" style="border: none;">
+                    <img src="https://twilio-cms-prod.s3.amazonaws.com/images/django-dark.width-808.png" class="card-img" alt="...">
+                    </div>
+                    <div class="col-lg-5">
+                    <div class="card-body">
+                        <small class="text-muted normal">Article by <a href="/about">{{ post.post_author }}</a> &bull; {{post.post_pub_date|date:'M jS, Y'}}</small>
+                        <h3 class="card-title"><a class="text-dark" href="/blog/{{post.post_slug}}">{{ post.post_title }}</a></h3>
+                        <p class="normal">{{ post.post_desc | truncatechars:50 }}</p>
+                        <div class="d-flex justify-content-between normal">
+                            <p><i class="fas fa-eye"></i> 0  &bull;  <i class="fas fa-comment-alt"></i> 0</p>
+                            <a href="/blog/{{post.post_slug}}">Read More</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main> 
+</div>
+{% endblock body %}

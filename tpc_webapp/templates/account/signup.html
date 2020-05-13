@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register - ThePunchCoders Accounts
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <section class="container-fluid">
+        <h2 class="text-center">Register</h2>
+        <p class="normal text-center">Create your TPC Account.</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-3 col-sm-6 normal">
+                <form method="post" action="/account/signup">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="firstname">First Name</label>
+                        <input type="text" class="form-control" id="firstname" aria-describedby="fullname" placeholder="John" name="u_fname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Doe" name="u_lname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="my_username" name="u_username" required>
+                        <small id="emailHelp" class="form-text text-muted">Your username must be unique.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="myemail@mysite.com" name="u_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass1">Password</label>
+                        <input type="password" class="form-control" id="pass1" name="u_pass" onkeyup='check();' required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass2">Confirm Password</label>
+                        <input type="password" class="form-control" id="pass2" name="c_pass" onkeyup='check();' required>
+                        <small><span id="message"></span></small>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-dark">Sign In</button>
+                </div>
+                <div class="text-center">
+                    <small>Already have an account. <a href="/account/signin">Login to your existing account</a></small><br>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock body %}

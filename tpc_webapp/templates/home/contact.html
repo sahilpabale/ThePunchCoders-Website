@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact | ThePunchCoders{% endblock title %}
+
+{% block contactAct %} active{% endblock contactAct %}
+
+{% block body %}
+<br>
+{% comment %} Messages used here!! {% endcomment %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  <strong></strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <center><h1 class="display-4">Contact Us</h1>
+    <p class="lead">Fill out the Contact Form to contact me on any basis.</p></center>
+    <br>
+  </div>
+</div>
+<div class="container">
+  <form method="post" action="/contact">
+    {% csrf_token %}
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" class="form-control" id="fullname" name="fullname" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+        <label for="msg">Message</label>
+        <textarea class="form-control" id="msg" placeholder="Describe your issue here.." rows="6" name="msg" required></textarea>
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-dark">Submit</button>
+      </div>
+  </form>
+</div>
+<br/>
+{% comment %} We will reach out to your request as soon as possible. {% endcomment %}
+
+
+
+{% endblock body %}
